@@ -1,0 +1,365 @@
+{
+	"info": {
+		"_postman_id": "101667bd-41e9-40df-97bb-8b2d7b2bd484",
+		"name": "Organization repo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25753295",
+		"_collection_link": "https://grey-escape-590131.postman.co/workspace/GitHubAPI~784b6ea1-dabe-4b24-be0c-72e3eeba2a79/collection/25753295-101667bd-41e9-40df-97bb-8b2d7b2bd484?action=share&creator=25753295&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "GET-list my github",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"UserId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/user",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "public",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET-all public repositories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/repositories",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"repositories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET-list my repo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/user/repos?affiliation=owner",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"user",
+						"repos"
+					],
+					"query": [
+						{
+							"key": "affiliation",
+							"value": "owner"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST-Create new repo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							" pm.environment.set(\"repoID\", jsonData.id);\r",
+							"    "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"APIGit\",\r\n    \"description\": \"Git repo api testing\",\r\n    \"homepage\": \"https://github.com\",\r\n    \"private\": false,\r\n    \"is_template\": true\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/user/repos",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"user",
+						"repos"
+					],
+					"query": [
+						{
+							"key": "affiliation",
+							"value": "owner",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET-list repo for a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/users/{{Username}}/repos?type=all&sort=created&direction=asc",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"users",
+						"{{Username}}",
+						"repos"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "all"
+						},
+						{
+							"key": "sort",
+							"value": "created"
+						},
+						{
+							"key": "direction",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch-update my repo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"APIGitRepo\",\r\n    \"description\": \"Git repo api testing\",\r\n    \"homepage\": \"https://github.com\",\r\n    \"private\": false,\r\n    \"is_template\": true\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/repos/{{Username}}}/APIGit",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"repos",
+						"{{Username}}}",
+						"APIGit"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
